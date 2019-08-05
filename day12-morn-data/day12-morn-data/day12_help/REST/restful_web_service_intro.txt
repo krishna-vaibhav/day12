@@ -1,0 +1,52 @@
+Spring 4 provides support for RESTful Web services through its MVC framework.
+
+The most popular approach for implementing RESTful Web services is Sun's JAX-RS specification. There are several projects available that support JAX-RS such as Apache CXF, Jersey, RESTEasy and Restlet. Most of them provide Spring support also. 
+
+Spring does not directly support JAX-RS, instead RESTful functionality is added to feature Spring MVC itself.
+
+Spring MVC stands for Model View Controller. It helps in building flexible and loosely coupled web applications. The Model  View  Controller design pattern insures separation of concerns (business logic, presentation logic and navigation logic) in a multi-tier web application. "Controllers" are responsible for receiving the request from the user and calling the back – end services. Models are responsible for encapsulating the application data. Views render response back to the user with using the model object. In short :
+
+When a request is sent to the Spring MVC Framework the following sequence of events happen.
+
+*** The DispatcherServlet first receives the request
+*** The DispatcherServlet consults the HandlerMapping and invokes the "Controller" associated with the request
+*** The "Controller" process the request by calling the appropriate service methods and returns a View/ModelAndView object to the DispatcherServlet. The ModelAndView object contains the model data and the view name
+*** The DispatcherServlet sends the view name to a ViewResolver to find the actual View to invoke
+*** The DispatcherServlet passes the model object to the View to render the result
+*** The View with the help of the model data renders the result and returns it back to the user
+
+
+
+Representational State Transfer (REST) is a style of software architecture for distributed systems such as the World Wide Web. REST has emerged as a predominant Web service design model.
+
+The term representational state transfer was introduced and defined in 2000 by Roy Fielding in his doctoral dissertation
+
+REST-style architectures consist of clients and servers. Clients initiate requests to servers; servers process requests and return appropriate responses. Requests and responses are built around the transfer of representations of resources. A resource can be essentially any coherent and meaningful concept that may be addressed. A representation of a resource is typically a document that captures the current or intended state of a resource.
+
+The client begins sending requests when it is ready to make the transition to a new state. While one or more requests are outstanding, the client is considered in transition. The representation of each application state contains links that may be used the next time the client chooses to initiate a new state-transition.
+
+REST facilitates the transaction between web servers by allowing loose coupling between different services. REST is less strongly typed than its counterpart, SOAP. The REST language uses nouns and verbs, and has an emphasis on readability. Unlike SOAP, REST does not require XML parsing and does not require a message header to and from a service provider. This ultimately uses less bandwidth. REST error-handling also differs from that used by SOAP.
+
+
+
+With the representational state transfer (REST) style architecture, requests and responses are built around the transfer of representations of resources. Resources are identified by global IDs that typically use a uniform resource identifier (URI). Client applications use HTTP methods (such as GET, POST, PUT, or DELETE) to manipulate the resource or collection of resources. Generally, a GET method is used to get or list the resource or collection of resources, POST is used to create, PUT is used to update or replace, and DELETE is for removing the resource.
+
+For example, GET http://host:port/context/employees/12345 gets the representation of the employee with the ID 12345. The response representation could be an XML or JSON that contains the detailed employee information, or it could be a JSP/HTML page that gives a better UI. Which representation you will see depends on the server-side implementation and the MIME type your clients request.
+
+A RESTful web service is a web service implemented using HTTP and the principles of REST. Generally, a RESTful web service will define the base resource URI, the representation/response MIME types it supports, and the operations it supports.
+
+Before the Spring framework supported REST, people used several other implementations, such as Restlet, RestEasy, and Jersey, to help build RESTful web services in the Java world. Jersey, the most significant of the group, is the reference implementation of JAX-RS (JSR 311). Resources has more about JSR 311 and Jersey.
+
+Spring, which is a widely used Java EE framework, added support for building RESTful web services in Release 3. Although the REST support is not an implementation of JAX-RS, it has more features than the specification defines. The REST support is integrated seamlessly into Spring's MVC layer and can be easily adopted by applications that build with Spring.
+
+The major features of Spring REST support include:
+
+    Annotations, such as @RequestMapping and @PathVariable, to support resource identification and URI mappings
+    ContentNegotiatingViewResolver to support different representations with different MIME/content types.
+
+HttpMessageConverter & @ResponseBody to send desired representation of the the resource to the client.
+
+ Easy integration into the original MVC layer with a similar programming model
+
+
+

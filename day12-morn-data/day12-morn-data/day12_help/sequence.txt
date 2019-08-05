@@ -1,0 +1,142 @@
+Revise 
+Flow of Spring MVC with Hibernate
+(Share "spring_mvc_hibernate" template)
+Project Tip -- Create n keep spring_hibernate with Java SE template project ready. Test everything from service--DAO--POJO --DB in Java SE(easier to manage!) .
+Tester ---Service --DAO--POJO --DB
+Then integrate with web app.
+---------------
+2 way form binding
+In UserController
+@GetMapping("/register")
+1. public String showRegForm(Model map)
+{
+  map.addAttribute("user",new User());
+  return "/user/register";
+}
+OR
+public String showRegForm(Model map)
+{
+  map.addAttribute(new User());
+  return "/user/register";
+}
+OR
+public String showRegForm(User u)
+{
+   sop(u);//Empty POJO
+  return "/user/register";
+}
+
+2. From register.jsp
+2.1 import spring supplied form tag library.
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="f" %>
+<body>
+<f:form modelAttribute="user" method="post">
+  <f:input path="email"/>
+ <input type="submit" value="Register User"/>
+</f:form>
+
+modelAttribute --name of the model attr(=derived POJO cls name) under which form data is bound.
+def action = form will be submitted to same URL (eg : /user/register)
+path=email ---@ time of loading form , SC will auto invoke User POJO's getEmail
+
+3. User fills up reg /updation form & submits 
+URL ---http://host:port/ctx/user/register --method=post
+
+In UserController ,
+@PostMapping("/register")
+public String processForm(User u,.......)
+{
+// SC invokes 
+User u=new User();
+SC chks for MATCHING POJO prop setter with req param names
+--if yes --all matching setter will be called(setEmail,setPass.....)
+map.addAttribute("user" u);
+ sop(u); //POPULATED POJO
+}
+---------------------------------
+Solve 
+vendor update requirement
+
+REST 
+Refer to 
+1. spring-restful-sequence
+2. Regarding REST
+3. REST simplified
+4. Regarding REST Controller
+(+ tutorials & other readmes)
+5. Link --https://www.codecademy.com/articles/what-is-rest
+
+5. Copy "spring_mvc_hibernate_template" , into spring REST server 
+Understand changes . 
+
+Steps for converting spring mvc web app ---REST server endpoint
+
+1. Copy existing spring -mvc-hib web app & edit
+Remove --ViewResolver,Model,model attrs,view layer., no @ReqParams, no HttpSession
+2. Replace @Controller --- @RestController
+Can use @PathVariable / @RequestBody to read info from client.
+3. Add service/dao/pojo & complete application.
+
+------------
+Annotations --@RestController
+Create simple Person/Employee POJO ,return List of POJOs to client using web browser or Postman .
+
+Steps
+1. Create User POJO (non annotated)
+2. Create RestController 
+Class level annotation -- @RestController
+
+Method level annotation --@GetMapping & Using @PathVariable to extract URI template variables.
+
+Aim --- accept a number from REST clnt ---REST server returns list(AL<User>) of those many users to the clnt.
+
+
+6. Actual implementation
+Net Banking server -- for CRUD of Banking
+Server side steps
+Layers --RestController --DAO (skipping service layer) --POJO --DB
+
+Client side steps
+
+7. REST Client --- Vendor Management system.
+refer to spring-restful-sequence
+
+7.5 P.L validations
+
+8. Readymade demo of rest_server & rest_clnt
+
+-----------------------------------
+
+Understanding Transaction Management in Spring
+
+How to automate Tx management in spring?
+1. Add spring supplied tx manager bean in config file
+<bean id="transactionManager" 		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory">
+</bean>
+2.  Enable tx annotation support
+	<tx:annotation-driven />
+
+3. Use @Transactional attribute typically in Service or DAO Layer.
+
+4. How to customize tx management -- using @Transactional attributes
+4.1 timeout
+eg : @Transactional(timeout=100)
+service/dao layer method
+4.2 readOnly -- 
+def value --false;
+eg : @Transactional(readOnly=true)
+4.3 
+@Transactional(rollbackFor = IOException.class, noRollbackFor = RuntimeException.class)
+public void doSomething(...)
+
+4.4 Tx propagation level
+
+4.5 Tx isolation level
+
+
+
+9. Spring Form Tags
+
+10 . Image upload n download
+

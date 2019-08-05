@@ -1,0 +1,18 @@
+A key difference between a traditional MVC controller and the RESTful web service controller is the way that the HTTP response body is created. Rather than relying on a view technology to perform server-side rendering of the greeting data to HTML, typically a  RESTful web service controller simply populates and returns a java object. The object data will be written directly to the HTTP response as JSON.
+
+To do this, the @ResponseBody annotation on the ret type of the request handling  method tells Spring MVC that it does not need to render the java object through a server-side view layer, but that instead the java object returned is the response body, and should be written out directly.
+
+The java object must be converted to JSON. Thanks to Spring’s HTTP message converter support, you don’t need to do this conversion manually. Because Jackson Jar is on the classpath, SC can automatically  convert the java object  to JSON & vice versa (using 2 annotations @ReponseBody & @RequestBody)
+
+API --Starting point 
+org.springframework.http.converter.HttpMessageConverter<T>
+--Interface that specifies a converter that can convert from and to HTTP requests and responses.
+Implementation classes
+1. org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter
+-- Implementation of HttpMessageConverter that can read and write XML using JAXB2.(Java architecture for XML binding)
+
+2. org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+--Implementation of HttpMessageConverter that can read and write JSON using Jackson 2.x's ObjectMapper class API
+
+----------------
+Good news is @RestController = @Controller + @ResponseBody added on ret types of all request handling methods
